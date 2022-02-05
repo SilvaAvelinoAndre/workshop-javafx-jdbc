@@ -1,18 +1,27 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import application.Main;
+import application.Principal;
+import gui.util.Alertas;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
@@ -34,8 +43,9 @@ public class DepartmentListController implements Initializable {
 	private ObservableList<Department> obsList;
 	
 	@FXML
-	public void onBtNovoAction() {
-		System.out.println("onBtNovoAction");
+	public void onBtNovoAction(ActionEvent evento) {
+		Stage palcoPai = Utils.palcoAtual(evento);
+		criarFormularioDialogo("/gui/DepartmentForm.fxml", palcoPai);
 	}
 	
 	
@@ -56,7 +66,7 @@ public class DepartmentListController implements Initializable {
 		tableColumId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumNome.setCellValueFactory(new PropertyValueFactory<>("name"));
 		
-		Stage stage = (Stage) Main.getMainScene().getWindow();
+		Stage stage = (Stage) Principal.getMainScene().getWindow();
 		tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
 		
 	}
@@ -70,4 +80,22 @@ public class DepartmentListController implements Initializable {
 		tableViewDepartment.setItems(obsList);
 	}
 
+	private void criarFormularioDialogo(String absoluteName, Stage parentStage){
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane painel = loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Digite os dados do departamento");
+			dialogStage.setScene(new Scene(painel));
+			dialogStage.setResizable(false); // janela não poderá ser redimensionada.
+			dialogStage.initOwner(parentStage);// vamos chamar ajanela pai 
+			dialogStage.initModality(Modality.WINDOW_MODAL); //comando fala qua janela vai ser modal, ou seja travada só podera acessar outra janela depois de fechar ela.
+			dialogStage.showAndWait();
+			
+		}
+		catch(IOException e) {
+			Alertas.showAlert("IO Except", "Erro de carregamento de Janela", e.getMessage(), AlertType.ERROR);
+		}
+	}
+	
 }

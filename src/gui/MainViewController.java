@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import application.Main;
+import application.Principal;
 import gui.util.Alertas;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,9 +62,9 @@ public class MainViewController implements Initializable { // classe de controle
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName)); // Estanciar uma nova tela
 			VBox newVBox = loader.load(); // tela nova sendo carregado como o novo vbox do menu About
 			
-			Scene mainScene = Main.getMainScene(); // chamar a tela principal da classe Main guardando ela na variavel mainScene.
-			VBox mainVBox =  (VBox) ((ScrollPane) mainScene.getRoot()).getContent(); // Acessando o VBox da classe Main, chamando 
-			// o mainScene ja declarado, com o comando getRoot() que traz o primeiro elemento da mainScene la da Classe Main, neste caso
+			Scene mainScene = Principal.getMainScene(); // chamar a tela principal da classe Principal guardando ela na variavel mainScene.
+			VBox mainVBox =  (VBox) ((ScrollPane) mainScene.getRoot()).getContent(); // Acessando o VBox da classe Principal, chamando 
+			// o mainScene ja declarado, com o comando getRoot() que traz o primeiro elemento da mainScene la da Classe Principal, neste caso
 			// o 1º item é o SCrollPane então a necessidade do Casting (ScrollPane), logo depois chama o comando get.Content(), que é o elemento que esta
 			// dentro do ScroolPane, quando voce chama o Content você fala para o compilador que quer o que esta dentro dele que é o VBox, ai
 			// basta fazer mais um casting (VBox) e o compilador entenderá que você quer só o Vboc.

@@ -28,6 +28,7 @@ public class MainViewController implements Initializable { // classe de controle
 	@FXML 
 	private MenuItem menuItemAbout; // atributo do tipo item de menu neste caso o item é um about
 	
+	
 	@FXML // assinatura do método para intercambio com o Scene Builder(programa que gera as telas)
 	public void onMenuItemVendedorAction() {// método para o menu do vendedor que vai gerar uma ação na tela
 		System.out.println("onMenuItemVendedorAction");

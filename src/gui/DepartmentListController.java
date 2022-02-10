@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Principal;
+import gui.ouvintes.OuvinteMudancaDados;
 import gui.util.Alertas;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,9 +27,11 @@ import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, OuvinteMudancaDados {
 	
 	private DepartmentService service;
+	
+	
 	
 	@FXML
 	private TableView<Department> tableViewDepartment;
@@ -89,6 +92,7 @@ public class DepartmentListController implements Initializable {
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
 			controller.setDepartmentService(new DepartmentService());
+			controller.agregarAlteracaoLista(this);
 			controller.atualizacaoDadosFormulario();
 			
 			Stage dialogStage = new Stage();
@@ -103,6 +107,13 @@ public class DepartmentListController implements Initializable {
 		catch(IOException e) {
 			Alertas.showAlert("IO Except", "Erro de carregamento de Janela", e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+
+	@Override
+	public void onAlteracaoDados() {
+		updateTableView();
+		
 	}
 	
 }

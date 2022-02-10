@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.ouvintes.OuvinteMudancaDados;
 import gui.util.Alertas;
 import gui.util.Restricoes;
 import gui.util.Utils;
@@ -22,7 +25,9 @@ public class DepartmentFormController implements Initializable {
 	private Department entidade;
 	
 	private DepartmentService service;
-
+	
+	private List<OuvinteMudancaDados> ouvintesMudancaDados = new ArrayList<>();
+	
 	@FXML
 	private TextField txtId;
 	@FXML
@@ -42,6 +47,9 @@ public class DepartmentFormController implements Initializable {
 		this.service = service;
 	}
 	
+	public void agregarAlteracaoLista(OuvinteMudancaDados ouvinte) {
+		ouvintesMudancaDados.add(ouvinte);
+	}
 	
 	@FXML
 	public void onBtSaveAction(ActionEvent evento) {
@@ -54,11 +62,19 @@ public class DepartmentFormController implements Initializable {
 		try {
 		entidade = getObterDadosFormulario();
 		service.salvarOuAtualizar(entidade);
+		notificarAlteracaoDadosLista();
 		Utils.palcoAtual(evento).close();
 		}
 		catch(DbException e) {
 			Alertas.showAlert("Erro ao salvar objeto", null, e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	private void notificarAlteracaoDadosLista() {
+		for (OuvinteMudancaDados ouvintes : ouvintesMudancaDados) {
+			ouvintes.onAlteracaoDados();
+		}
+		
 	}
 
 	private Department getObterDadosFormulario() {

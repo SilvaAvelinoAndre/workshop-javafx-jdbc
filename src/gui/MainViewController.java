@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.DepartmentService;
+import model.services.SellerService;
 
 public class MainViewController implements Initializable { // classe de controle dos itens da tela ele implementa o Initializable para que 
 	// as coisa possam ser iniciadas
@@ -31,7 +32,10 @@ public class MainViewController implements Initializable { // classe de controle
 	
 	@FXML // assinatura do método para intercambio com o Scene Builder(programa que gera as telas)
 	public void onMenuItemVendedorAction() {// método para o menu do vendedor que vai gerar uma ação na tela
-		System.out.println("onMenuItemVendedorAction");
+		loadView("/gui/SellerList.fxml", (SellerListController controller) -> {
+			controller.setSellerServices(new SellerService());
+			controller.updateTableView();
+		});
 	}
 	
 	@FXML

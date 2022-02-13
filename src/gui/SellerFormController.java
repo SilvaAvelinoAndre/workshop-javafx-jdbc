@@ -1,8 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -17,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Seller;
@@ -33,12 +37,34 @@ public class SellerFormController implements Initializable {
 
 	@FXML
 	private TextField txtId;
+	
 	@FXML
 	private TextField txtName;
+	
+	@FXML
+	private TextField txtEmail;
+	
+	@FXML
+	private DatePicker dpBirthDate;
+	
+	@FXML
+	private TextField txtBaseSalary;
+	
 	@FXML
 	private Label labelErrorName;
+	
+	@FXML
+	private Label labelErrorEmail;
+	
+	@FXML
+	private Label labelErrorBirthDate;
+	
+	@FXML
+	private Label labelErrorBaseSalary;
+	
 	@FXML
 	private Button btSave;
+	
 	@FXML
 	private Button btCancel;
 
@@ -115,7 +141,10 @@ public class SellerFormController implements Initializable {
 
 	private void initializeNodes() {
 		Restricoes.setTextFieldInteger(txtId);
-		Restricoes.setTextFieldMaxLength(txtName, 50);
+		Restricoes.setTextFieldMaxLength(txtName, 70);
+		Restricoes.setTextFieldDouble(txtBaseSalary);
+		Restricoes.setTextFieldMaxLength(txtEmail, 60);
+		Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
 	}
 
 	public void atualizacaoDadosFormulario() {
@@ -125,6 +154,12 @@ public class SellerFormController implements Initializable {
 
 		txtId.setText(String.valueOf(entidade.getId()));
 		txtName.setText(entidade.getName());
+		txtEmail.setText(entidade.getEmail());
+		Locale.setDefault(Locale.US);
+		txtBaseSalary.setText(String.format("%.2f", entidade.getBaseSalary()));
+		if(entidade.getBirthDate() != null) {
+		dpBirthDate.setValue(LocalDate.ofInstant(entidade.getBirthDate().toInstant(), ZoneId.systemDefault()));
+		}
 
 	}
 

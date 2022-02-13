@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,6 +31,8 @@ import model.services.SellerService;
 public class SellerListController implements Initializable, OuvinteMudancaDados {
 
 	private SellerService service;
+	
+	
 
 	@FXML
 	private TableView<Seller> tableViewSeller;
@@ -37,6 +40,15 @@ public class SellerListController implements Initializable, OuvinteMudancaDados 
 	private TableColumn<Seller, Integer> tableColumId;
 	@FXML
 	private TableColumn<Seller, String> tableColumNome;
+	
+	@FXML
+	private TableColumn<Seller, String> tableColumnEmail;
+	
+	@FXML
+	private TableColumn<Seller, Date> tableColumnBirthDate;
+	
+	@FXML
+	private TableColumn<Seller, Double> tableColumnBaseSalary;
 
 	@FXML
 	private TableColumn<Seller, Seller> tableColumnEDIT;
@@ -69,6 +81,11 @@ public class SellerListController implements Initializable, OuvinteMudancaDados 
 	private void initilizeNodes() {
 		tableColumId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumNome.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy");
+		tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
+		Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);
 
 		Stage stage = (Stage) Principal.getMainScene().getWindow();
 		tableViewSeller.prefHeightProperty().bind(stage.heightProperty());
@@ -155,7 +172,7 @@ public class SellerListController implements Initializable, OuvinteMudancaDados 
 	}
 
 	private void removeEntity(Seller obj) {
-		Optional<ButtonType> resultado =  Alertas.showConfirmation("Confirmação", "Tem certeza que deseja deletar este Departamento?");
+		Optional<ButtonType> resultado =  Alertas.showConfirmation("Confirmação", "Tem certeza que deseja deletar este Vendedor?");
 		
 		if(resultado.get() == ButtonType.OK) {
 			if(service == null) {

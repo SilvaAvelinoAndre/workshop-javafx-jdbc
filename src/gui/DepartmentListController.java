@@ -112,6 +112,7 @@ public class DepartmentListController implements Initializable, OuvinteMudancaDa
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alertas.showAlert("IO Except", "Erro de carregamento de Janela", e.getMessage(), AlertType.ERROR);
 		}
 	}
